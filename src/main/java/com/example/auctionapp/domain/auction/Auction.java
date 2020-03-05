@@ -34,7 +34,7 @@ public class Auction {
     private  LocalDateTime startDate;
     private  LocalDateTime endDate;
     private int days;
-    private boolean activ;
+
 
 
     BigDecimal calculatePrice(int quantity){
@@ -43,6 +43,26 @@ public class Auction {
     void decreaseQuantity(int quantity){
         this.quantity = this.quantity - quantity;
     }
+
+    void updateQuantity(int quantity) {
+        if (quantity <= getQuantity()) {
+            setQuantity(this.quantity - quantity);
+        } else {
+            throw new IllegalArgumentException("Cannot exced limit pieces " + getQuantity());
+        }
+
+    }
+
+    void checkDate(){
+
+        if(LocalDateTime.now().isBefore(startDate)) {
+            throw new IllegalArgumentException("Auction not started yet");
+        }
+        if(LocalDateTime.now().isAfter(endDate)){
+            throw new IllegalArgumentException("Auction expired");
+        }
+    }
+
 
 
     static Auction create(AuctionRequestDTO auctionRequestDTO){
@@ -53,7 +73,9 @@ public class Auction {
         auction.setDescription(auctionRequestDTO.getDescription());
         auction.setQuantity(auctionRequestDTO.getQuantity());
         auction.setPrice(auctionRequestDTO.getPrice());
+        auction.setStartDate(LocalDateTime.now());
         auction.setDays(auctionRequestDTO.getDays());
+        auction.setEndDate(LocalDateTime.now().plusDays(auctionRequestDTO.getDays()));
 
         return auction;
 

@@ -18,4 +18,13 @@ class AuctionRetrievalSQLImpl implements AuctionRetrieval {
     public List<Auction> getAllAuctions() {
         return auctionRepository.findAll();
     }
+
+    @Override
+    public Auction getAuctionById(long auctionId) {
+
+        return auctionRepository.getOne(auctionId);
+
+    }
+
+
 }
