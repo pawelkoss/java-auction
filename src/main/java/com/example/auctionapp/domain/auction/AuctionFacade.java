@@ -11,6 +11,8 @@ public class AuctionFacade {
 
     private final AuctionRetrieval auctionRetrieval;
     private final CreateAuction createAuction;
+    private final OrderAuction orderAuction;
+
 
     public void createAuction(AuctionRequestDTO auctionRequestDTO){
 
@@ -22,6 +24,14 @@ public class AuctionFacade {
                 .stream()
                 .map(Auction.AuctionMapper::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Auction getAuctionById(long auctionId){
+        return auctionRetrieval.getAuctionById(auctionId);
+    }
+
+    public void verifyAuction(long auctionId, int quantity){
+        orderAuction.verifyAuctionAndDecreaseQuantity(auctionId, quantity);
     }
 
 }

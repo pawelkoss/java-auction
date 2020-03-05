@@ -14,6 +14,9 @@ class CreateOrderSQLImpl implements CreateOrder {
     @Override
     public void createOrderInt(Order order) {
 
+        //todo byc moze w try catch
         orderRepository.save(order);
+        //todo request do banku o oplacenie zamowienia
+        
     }
 }
